@@ -1,0 +1,40 @@
+{
+  "id": "netlify-deployment-test",
+  "title": "Netlify Deployment Test - Automated Blog Generation",
+  "slug": "netlify-deployment-test",
+  "category": "Strategy",
+  "excerpt": "This is a test blog post to verify that Netlify automatically generates HTML files from JSON blog posts. If you're reading this on a live page with proper meta tags, the automation is working perfectly!",
+  "author": "Whitezebra Team",
+  "date": "2026-01-14",
+  "readTime": "3 min read",
+  "image": "digital-marketing-2024.png",
+  "featured": false,
+  "tags": ["testing", "netlify", "automation", "deployment"],
+  "content": {
+    "introduction": "This blog post serves as a test case for our automated blog generation system. When you push a JSON file to GitHub, Netlify should automatically generate a fully-featured HTML page with proper SEO meta tags.",
+    "sections": [
+      {
+        "heading": "What We're Testing",
+        "content": "This test verifies that our build script (build-blogs.js) runs automatically on Netlify deployment. The script should read this JSON file and generate a corresponding HTML file with all necessary meta tags for SEO, social sharing, and search engine optimization."
+      },
+      {
+        "heading": "Expected Behavior",
+        "content": "When this JSON file is committed and pushed to the repository, Netlify should: 1) Detect the new commit, 2) Run npm run build:blog command, 3) Generate netlify-deployment-test.html, 4) Deploy the updated site with the new blog post visible in the blog listing and accessible via direct URL."
+      },
+      {
+        "heading": "What to Check",
+        "content": "After deployment, verify the following: The blog post appears on the blog listing page, the individual blog post page loads correctly, all meta tags are properly populated (check with metatags.io), the featured image displays correctly, and social sharing previews work on Facebook, Twitter, and LinkedIn."
+      },
+      {
+        "heading": "SEO Verification",
+        "content": "Use online tools like metatags.io to verify that all Open Graph tags, Twitter Cards, and standard meta tags are properly set. This ensures that when shared on social media, the post will display with the correct title, description, and image."
+      }
+    ],
+    "conclusion": "If you're reading this page with all elements displaying correctly and proper meta tags in place, congratulations! The automated blog generation system is working perfectly on Netlify. You can now write blog posts in JSON format and they will automatically become SEO-optimized HTML pages on deployment."
+  },
+  "seo": {
+    "metaTitle": "Netlify Deployment Test - Automated Blog System | Whitezebra",
+    "metaDescription": "Testing automated blog HTML generation on Netlify. This post verifies that JSON blog files are automatically converted to SEO-optimized HTML pages during deployment.",
+    "keywords": ["netlify", "automated deployment", "blog automation", "SEO optimization", "continuous deployment"]
+  }
+}
