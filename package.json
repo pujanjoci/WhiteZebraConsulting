@@ -1,0 +1,17 @@
+{
+  "name": "whitezebrawebsite",
+  "version": "1.0.0",
+  "description": "Whitezebra Consulting - Premium Offshore Operations",
+  "scripts": {
+    "build:blog": "node build-blogs.js",
+    "prebuild": "npm run build:blog"
+  },
+  "keywords": [
+    "consulting",
+    "offshore",
+    "operations",
+    "digital-marketing"
+  ],
+  "author": "Whitezebra Consulting",
+  "license": "ISC"
+}

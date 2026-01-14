@@ -165,14 +165,14 @@ class BlogEngine {
             ${imageContent}
             <div class="blog-content">
                 <span class="blog-category">${post.category}</span>
-                <h3><a href="blog-post.html?slug=${post.slug}">${post.title}</a></h3>
+                <h3><a href="${post.slug}.html">${post.title}</a></h3>
                 <p class="blog-excerpt">${post.excerpt}</p>
                 <div class="blog-meta">
                     <div class="read-time">
                         <i class="far fa-clock"></i>
                         <span>${post.readTime}</span>
                     </div>
-                    <a href="blog-post.html?slug=${post.slug}" class="read-more">
+                    <a href="${post.slug}.html" class="read-more">
                         Read Article <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
