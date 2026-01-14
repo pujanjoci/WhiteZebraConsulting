@@ -1,86 +1,4 @@
-/**
- * Blog HTML Generator
- * Generates individual HTML pages for each blog post with proper SEO meta tags
- * Works for both GitHub Pages and Netlify deployments
- */
-
-const fs = require('fs');
-const path = require('path');
-
-// Configuration
-const BLOG_FOLDER = './src/blogs';
-const OUTPUT_FOLDER = './src';
-const BASE_URL = 'https://pujanjoci.github.io/WhiteZebraConsulting';
-
-// Read all blog JSON files
-function getBlogPosts() {
-    const files = fs.readdirSync(BLOG_FOLDER);
-    const blogPosts = [];
-
-    files.forEach(file => {
-        if (file.endsWith('.json') && file !== 'template.json') {
-            const filePath = path.join(BLOG_FOLDER, file);
-            const content = fs.readFileSync(filePath, 'utf-8');
-            try {
-                const post = JSON.parse(content);
-                blogPosts.push(post);
-            } catch (error) {
-                console.error(`Error parsing ${file}:`, error.message);
-            }
-        }
-    });
-
-    return blogPosts;
-}
-
-// Generate HTML for a blog post
-function generateBlogHTML(post) {
-    // Auto-generate SEO fields if missing
-    const seo = post.seo || {};
-    const metaTitle = seo.metaTitle || `${post.title} | Whitezebra Consulting`;
-    const metaDescription = seo.metaDescription || post.excerpt || post.content.introduction.substring(0, 155);
-    const keywords = seo.keywords || post.tags || [];
-    
-    const pageUrl = `${BASE_URL}/src/${post.slug}.html`;
-    const imageUrl = post.image ? `${BASE_URL}/src/blogs_images/${post.image}` : `${BASE_URL}/src/assets/whitezebra.jpeg`;
-
-    // Generate content sections
-    let contentSections = '';
-    if (post.content.sections) {
-        post.content.sections.forEach(section => {
-            contentSections += `
-                <h2>${section.heading}</h2>
-                <p>${section.content}</p>
-            `;
-        });
-    }
-
-    // Generate tags
-    let tagsHTML = '';
-    if (post.tags && post.tags.length > 0) {
-        tagsHTML = `
-            <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e5e7eb;">
-                <h3 style="font-size: 1rem; color: #6b7280; margin-bottom: 1rem;">Tags:</h3>
-                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                    ${post.tags.map(tag => `<span style="padding: 0.4rem 1rem; background: #f3f4f6; color: #1a56db; border-radius: 50px; font-size: 0.9rem;">${tag}</span>`).join('')}
-                </div>
-            </div>
-        `;
-    }
-
-    // Generate featured image
-    let featuredImage = '';
-    if (post.image) {
-        featuredImage = `
-            <div style="margin: 2rem 0; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
-                <img src="./blogs_images/${post.image}" 
-                     alt="${post.title}" 
-                     style="width: 100%; height: auto; display: block;">
-            </div>
-        `;
-    }
-
-    return `<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -88,25 +6,25 @@ function generateBlogHTML(post) {
     <link rel="icon" type="image/jpeg" href="./assets/whitezebra.jpeg">
     
     <!-- Primary Meta Tags -->
-    <title>${metaTitle}</title>
-    <meta name="title" content="${metaTitle}">
-    <meta name="description" content="${metaDescription}">
-    <meta name="keywords" content="${keywords.join(', ')}">
-    <meta name="author" content="${post.author}">
+    <title>Netlify Deployment Test - Automated Blog System | Whitezebra</title>
+    <meta name="title" content="Netlify Deployment Test - Automated Blog System | Whitezebra">
+    <meta name="description" content="Testing automated blog HTML generation on Netlify. This post verifies that JSON blog files are automatically converted to SEO-optimized HTML pages during deployment.">
+    <meta name="keywords" content="netlify, automated deployment, blog automation, SEO optimization, continuous deployment">
+    <meta name="author" content="Whitezebra Team">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article">
-    <meta property="og:url" content="${pageUrl}">
-    <meta property="og:title" content="${metaTitle}">
-    <meta property="og:description" content="${metaDescription}">
-    <meta property="og:image" content="${imageUrl}">
+    <meta property="og:url" content="https://pujanjoci.github.io/WhiteZebraConsulting/src/netlify-deployment-test.html">
+    <meta property="og:title" content="Netlify Deployment Test - Automated Blog System | Whitezebra">
+    <meta property="og:description" content="Testing automated blog HTML generation on Netlify. This post verifies that JSON blog files are automatically converted to SEO-optimized HTML pages during deployment.">
+    <meta property="og:image" content="https://pujanjoci.github.io/WhiteZebraConsulting/src/blogs_images/digital-marketing-2024.png">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="${pageUrl}">
-    <meta property="twitter:title" content="${metaTitle}">
-    <meta property="twitter:description" content="${metaDescription}">
-    <meta property="twitter:image" content="${imageUrl}">
+    <meta property="twitter:url" content="https://pujanjoci.github.io/WhiteZebraConsulting/src/netlify-deployment-test.html">
+    <meta property="twitter:title" content="Netlify Deployment Test - Automated Blog System | Whitezebra">
+    <meta property="twitter:description" content="Testing automated blog HTML generation on Netlify. This post verifies that JSON blog files are automatically converted to SEO-optimized HTML pages during deployment.">
+    <meta property="twitter:image" content="https://pujanjoci.github.io/WhiteZebraConsulting/src/blogs_images/digital-marketing-2024.png">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -254,20 +172,20 @@ function generateBlogHTML(post) {
     <!-- Post Header -->
     <header class="post-header">
         <div class="post-header-content">
-            <span class="post-category">${post.category}</span>
-            <h1>${post.title}</h1>
+            <span class="post-category">Strategy</span>
+            <h1>Netlify Deployment Test - Automated Blog Generation</h1>
             <div class="post-meta">
                 <div class="post-meta-item">
                     <i class="far fa-calendar"></i>
-                    <span>${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                    <span>January 14, 2026</span>
                 </div>
                 <div class="post-meta-item">
                     <i class="far fa-clock"></i>
-                    <span>${post.readTime}</span>
+                    <span>3 min read</span>
                 </div>
                 <div class="post-meta-item">
                     <i class="far fa-user"></i>
-                    <span>${post.author}</span>
+                    <span>Whitezebra Team</span>
                 </div>
             </div>
         </div>
@@ -280,18 +198,43 @@ function generateBlogHTML(post) {
                 <i class="fas fa-arrow-left"></i> Back to Blog
             </a>
 
-            ${featuredImage}
+            
+            <div style="margin: 2rem 0; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
+                <img src="./blogs_images/digital-marketing-2024.png" 
+                     alt="Netlify Deployment Test - Automated Blog Generation" 
+                     style="width: 100%; height: auto; display: block;">
+            </div>
+        
 
-            <p class="post-introduction">${post.content.introduction}</p>
+            <p class="post-introduction">This blog post serves as a test case for our automated blog generation system. When you push a JSON file to GitHub, Netlify should automatically generate a fully-featured HTML page with proper SEO meta tags.</p>
 
-            ${contentSections}
+            
+                <h2>What We're Testing</h2>
+                <p>This test verifies that our build script (build-blogs.js) runs automatically on Netlify deployment. The script should read this JSON file and generate a corresponding HTML file with all necessary meta tags for SEO, social sharing, and search engine optimization.</p>
+            
+                <h2>Expected Behavior</h2>
+                <p>When this JSON file is committed and pushed to the repository, Netlify should: 1) Detect the new commit, 2) Run npm run build:blog command, 3) Generate netlify-deployment-test.html, 4) Deploy the updated site with the new blog post visible in the blog listing and accessible via direct URL.</p>
+            
+                <h2>What to Check</h2>
+                <p>After deployment, verify the following: The blog post appears on the blog listing page, the individual blog post page loads correctly, all meta tags are properly populated (check with metatags.io), the featured image displays correctly, and social sharing previews work on Facebook, Twitter, and LinkedIn.</p>
+            
+                <h2>SEO Verification</h2>
+                <p>Use online tools like metatags.io to verify that all Open Graph tags, Twitter Cards, and standard meta tags are properly set. This ensures that when shared on social media, the post will display with the correct title, description, and image.</p>
+            
 
             <div class="post-conclusion">
                 <h2>Conclusion</h2>
-                <p>${post.content.conclusion}</p>
+                <p>If you're reading this page with all elements displaying correctly and proper meta tags in place, congratulations! The automated blog generation system is working perfectly on Netlify. You can now write blog posts in JSON format and they will automatically become SEO-optimized HTML pages on deployment.</p>
             </div>
 
-            ${tagsHTML}
+            
+            <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e5e7eb;">
+                <h3 style="font-size: 1rem; color: #6b7280; margin-bottom: 1rem;">Tags:</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                    <span style="padding: 0.4rem 1rem; background: #f3f4f6; color: #1a56db; border-radius: 50px; font-size: 0.9rem;">testing</span><span style="padding: 0.4rem 1rem; background: #f3f4f6; color: #1a56db; border-radius: 50px; font-size: 0.9rem;">netlify</span><span style="padding: 0.4rem 1rem; background: #f3f4f6; color: #1a56db; border-radius: 50px; font-size: 0.9rem;">automation</span><span style="padding: 0.4rem 1rem; background: #f3f4f6; color: #1a56db; border-radius: 50px; font-size: 0.9rem;">deployment</span>
+                </div>
+            </div>
+        
         </article>
     </main>
 
@@ -350,40 +293,4 @@ function generateBlogHTML(post) {
 
     <script src="../script.js"></script>
 </body>
-</html>`;
-}
-
-// Main execution
-console.log('🚀 Starting blog HTML generation...\n');
-
-const posts = getBlogPosts();
-console.log(`📝 Found ${posts.length} blog posts\n`);
-
-let generatedCount = 0;
-const blogFileNames = [];
-
-posts.forEach(post => {
-    const html = generateBlogHTML(post);
-    const outputPath = path.join(OUTPUT_FOLDER, `${post.slug}.html`);
-    
-    fs.writeFileSync(outputPath, html, 'utf-8');
-    console.log(`✅ Generated: ${post.slug}.html`);
-    generatedCount++;
-    
-    // Track JSON filenames for index
-    blogFileNames.push(`${post.slug}.json`);
-});
-
-// Generate blog index file for dynamic loading
-const blogIndex = {
-    posts: blogFileNames,
-    generated: new Date().toISOString(),
-    count: blogFileNames.length
-};
-
-const indexPath = path.join(BLOG_FOLDER, 'blog-index.json');
-fs.writeFileSync(indexPath, JSON.stringify(blogIndex, null, 2), 'utf-8');
-console.log(`\n📑 Generated: blog-index.json with ${blogFileNames.length} posts`);
-
-console.log(`\n✨ Successfully generated ${generatedCount} blog post HTML files!`);
-console.log('📍 Files saved to: ./src/\n');
+</html>
