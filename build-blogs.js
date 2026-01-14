@@ -35,10 +35,25 @@ function getBlogPosts() {
 
 // Generate HTML for a blog post
 function generateBlogHTML(post) {
+    // Validate required fields
+    if (!post.slug || !post.title) {
+        console.warn(`Skipping invalid post: missing slug or title`);
+        return null;
+    }
+
     // Auto-generate SEO fields if missing
     const seo = post.seo || {};
     const metaTitle = seo.metaTitle || `${post.title} | Whitezebra Consulting`;
-    const metaDescription = seo.metaDescription || post.excerpt || post.content.introduction.substring(0, 155);
+    
+    // Safely get meta description with fallbacks
+    let metaDescription = seo.metaDescription || post.excerpt || '';
+    if (!metaDescription && post.content && post.content.introduction) {
+        metaDescription = post.content.introduction.substring(0, 155);
+    }
+    if (!metaDescription) {
+        metaDescription = post.title; // Ultimate fallback
+    }
+    
     const keywords = seo.keywords || post.tags || [];
     
     const pageUrl = `${BASE_URL}/src/${post.slug}.html`;
@@ -46,7 +61,7 @@ function generateBlogHTML(post) {
 
     // Generate content sections
     let contentSections = '';
-    if (post.content.sections) {
+    if (post.content && post.content.sections && Array.isArray(post.content.sections)) {
         post.content.sections.forEach(section => {
             contentSections += `
                 <h2>${section.heading}</h2>
@@ -282,13 +297,13 @@ function generateBlogHTML(post) {
 
             ${featuredImage}
 
-            <p class="post-introduction">${post.content.introduction}</p>
+            <p class="post-introduction">${post.content && post.content.introduction ? post.content.introduction : post.excerpt || ''}</p>
 
             ${contentSections}
 
             <div class="post-conclusion">
                 <h2>Conclusion</h2>
-                <p>${post.content.conclusion}</p>
+                <p>${post.content && post.content.conclusion ? post.content.conclusion : 'Thank you for reading.'}</p>
             </div>
 
             ${tagsHTML}
@@ -364,6 +379,13 @@ const blogFileNames = [];
 
 posts.forEach(post => {
     const html = generateBlogHTML(post);
+    
+    // Skip if HTML generation failed
+    if (!html) {
+        console.warn(`⚠️  Skipped: ${post.slug || 'unknown'} (invalid or incomplete)`);
+        return;
+    }
+    
     const outputPath = path.join(OUTPUT_FOLDER, `${post.slug}.html`);
     
     fs.writeFileSync(outputPath, html, 'utf-8');

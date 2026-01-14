@@ -1,11 +1,5 @@
-# Temporary static deployment (no build)
-# To enable automatic builds, uncomment the lines below after debugging
-
-# [build]
-#   command = "npm run build:blog"
-#   publish = "."
-
 [build]
+  command = "npm run build:blog"
   publish = "."
 
 [[redirects]]
