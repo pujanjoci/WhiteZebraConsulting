@@ -143,15 +143,26 @@ class BlogEngine {
         ];
         const randomGradient = gradients[Math.floor(Math.random() * gradients.length)];
 
-        // Determine image source - use actual image if available
-        const imageStyle = post.image 
-            ? `background-image: url('./blogs_images/${post.image}'); background-size: cover; background-position: center;`
-            : `background: ${randomGradient};`;
+        // Create image content - use actual img tag if available, otherwise use gradient background
+        let imageContent = '';
+        if (post.image) {
+            imageContent = `
+                <div class="blog-image" style="background: ${gradients[Math.floor(Math.random() * gradients.length)]}; position: relative; overflow: hidden;">
+                    <img src="./blogs_images/${post.image}" 
+                         alt="${post.title}" 
+                         style="width: 100%; height: 100%; object-fit: cover; display: block;"
+                         onerror="this.style.display='none'">
+                    ${post.featured || isFeatured ? '<span style="position: absolute; top: 1rem; right: 1rem; background: white; color: #667eea; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.8rem; font-weight: 600; z-index: 1;">FEATURED</span>' : ''}
+                </div>`;
+        } else {
+            imageContent = `
+                <div class="blog-image" style="background: ${randomGradient};">
+                    ${post.featured || isFeatured ? '<span style="position: absolute; top: 1rem; right: 1rem; background: white; color: #667eea; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.8rem; font-weight: 600; z-index: 1;">FEATURED</span>' : ''}
+                </div>`;
+        }
 
         article.innerHTML = `
-            <div class="blog-image" style="${imageStyle}">
-                ${post.featured || isFeatured ? '<span style="position: absolute; top: 1rem; right: 1rem; background: white; color: #667eea; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.8rem; font-weight: 600; z-index: 1;">FEATURED</span>' : ''}
-            </div>
+            ${imageContent}
             <div class="blog-content">
                 <span class="blog-category">${post.category}</span>
                 <h3><a href="blog-post.html?slug=${post.slug}">${post.title}</a></h3>
