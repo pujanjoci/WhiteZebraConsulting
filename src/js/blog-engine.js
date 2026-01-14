@@ -132,7 +132,7 @@ class BlogEngine {
         const article = document.createElement('article');
         article.className = 'blog-card';
 
-        // Generate gradient for image
+        // Generate gradient for fallback
         const gradients = [
             'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
@@ -143,9 +143,14 @@ class BlogEngine {
         ];
         const randomGradient = gradients[Math.floor(Math.random() * gradients.length)];
 
+        // Determine image source - use actual image if available
+        const imageStyle = post.image 
+            ? `background-image: url('./blogs_images/${post.image}'); background-size: cover; background-position: center;`
+            : `background: ${randomGradient};`;
+
         article.innerHTML = `
-            <div class="blog-image" style="background: ${randomGradient};">
-                ${post.featured || isFeatured ? '<span style="position: absolute; top: 1rem; right: 1rem; background: white; color: #667eea; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.8rem; font-weight: 600;">FEATURED</span>' : ''}
+            <div class="blog-image" style="${imageStyle}">
+                ${post.featured || isFeatured ? '<span style="position: absolute; top: 1rem; right: 1rem; background: white; color: #667eea; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.8rem; font-weight: 600; z-index: 1;">FEATURED</span>' : ''}
             </div>
             <div class="blog-content">
                 <span class="blog-category">${post.category}</span>
