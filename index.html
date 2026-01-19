@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YHBBRVH6XS"></script>
+    <!-- Performance Optimizations -->
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    
+    <!-- Google tag (gtag.js) - Deferred for better performance -->
+    <script defer src="https://www.googletagmanager.com/gtag/js?id=G-YHBBRVH6XS"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -30,7 +35,9 @@
     <meta property="twitter:description" content="Premium offshore backend support services for digital businesses. Expert solutions in digital marketing, e-commerce management, and admin support.">
     <meta property="twitter:image" content="https://whitezebraconsulting.com/src/assets/whitezebra.jpeg">
     <title>Whitezebra Consulting Pvt. Ltd - Offshore Operations Partner</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Optimize Font Awesome loading -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -38,7 +45,7 @@
     <nav id="mainNav">
         <div class="nav-container">
             <div class="logo">
-                <img src="./src/assets/whitezebra.jpeg" alt="Whitezebra Consulting" class="logo-img">
+                <img src="./src/assets/whitezebra.jpeg" alt="Whitezebra Consulting" class="logo-img" width="45" height="45" loading="eager">
                 <a href="index.html" class="logo-text">Whitezebra Consulting</a>
             </div>
             <ul class="nav-links" id="navLinks">
@@ -276,6 +283,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
