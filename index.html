@@ -6,13 +6,24 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="https://www.google-analytics.com">
     
-    <!-- Google Analytics: defer = better performance, loads after page -->
-    <script defer src="https://www.googletagmanager.com/gtag/js?id=G-YHBBRVH6XS"></script>
+    <!-- Google Analytics: Delayed loading to reduce TBT -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-YHBBRVH6XS');
+        function loadGA() {
+            if (window.gaLoaded) return;
+            window.gaLoaded = true;
+            var script = document.createElement('script');
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-YHBBRVH6XS';
+            script.defer = true;
+            document.head.appendChild(script);
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-YHBBRVH6XS');
+        }
+        ['mousemove','scroll','keydown','click','touchstart'].forEach(e => 
+            window.addEventListener(e, loadGA, {once:true, passive:true})
+        );
+        setTimeout(loadGA, 3000);
     </script>
     <link rel="icon" type="image/jpeg" href="src/assets/whitezebra.jpeg">
     <meta charset="UTF-8">
@@ -237,12 +248,12 @@
             <div class="footer-content">
                 <div class="footer-column footer-logo">
                     <div class="logo" style="color: white; margin-bottom: 1.5rem;">
-                        <img src="./src/assets/whitezebra.jpeg" alt="Whitezebra Consulting" class="logo-img" style="height: 50px;">
+                        <img src="./src/assets/whitezebra.jpeg" alt="Whitezebra Consulting" class="logo-img" style="height: 50px;" width="50" height="50" loading="lazy">
                         <span>Whitezebra Consulting</span>
                     </div>
                     <p>Your trusted offshore operations partner delivering premium backend support services for digital businesses worldwide.</p>
                     <div class="social-links">
-                        <a href="https://www.linkedin.com/company/whitezebraconsulting/"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.linkedin.com/company/whitezebraconsulting/" aria-label="Visit our LinkedIn company page" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
                 
