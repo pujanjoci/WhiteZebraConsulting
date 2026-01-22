@@ -1,0 +1,32 @@
+{
+  "id": "test-blog-development",
+  "title": "Testing Blog Development and Automation",
+  "slug": "test-blog-development",
+  "category": "Development",
+  "excerpt": "This is a test blog post used to verify the automated build process and sitemap generation.",
+  "author": "Antigravity",
+  "date": "2026-01-22",
+  "readTime": "2 min read",
+  "image": "template-image.jpg",
+  "featured": false,
+  "tags": ["testing", "automation", "development"],
+  "content": {
+    "introduction": "This post exists solely for verification of the Whitezebra blog engine and automated deployment pipelines.",
+    "sections": [
+      {
+        "heading": "Verification Step 1: HTML Generation",
+        "content": "The build script should identify this JSON file and generate a corresponding HTML file in the /src directory."
+      },
+      {
+        "heading": "Verification Step 2: Sitemap Integration",
+        "content": "The sitemap.xml should now automatically include this new URL with the correct domain and priority."
+      }
+    ],
+    "conclusion": "If you can see this page and it appears in the sitemap, the development test was successful."
+  },
+  "seo": {
+    "metaTitle": "Test Blog | Whitezebra Development",
+    "metaDescription": "Test blog post for verifying build automation.",
+    "keywords": ["test", "blog", "automation"]
+  }
+}
