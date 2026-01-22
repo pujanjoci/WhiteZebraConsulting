@@ -171,7 +171,11 @@
                     <p>Thank you for contacting Whitezebra Consulting. Our team will review your inquiry and get back to you within 24 hours.</p>
                 </div>
                 
-                <form class="contact-form" name="contact" method="POST" data-netlify="true" id="contactForm">
+                <form class="contact-form" name="contact" method="POST" data-netlify="true" id="contactForm" action="/" netlify netlify-honeypot="bot-field">
+                    <input type="hidden" name="form-name" value="contact" />
+                    <p style="display:none;">
+                        <label>Don’t fill this out: <input name="bot-field" /></label>
+                    </p>
                     <div class="form-group">
                         <label for="name"><i class="far fa-user"></i> Full Name <span>*</span></label>
                         <input type="text" id="name" name="name" placeholder="Enter your full name" required>
@@ -377,8 +381,25 @@
                         return;
                     }
                     
-                    // Simulate network delay
-                    setTimeout(() => {
+                    // Create encode helper
+                    const encode = (data) => {
+                        return Object.keys(data)
+                            .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+                            .join("&");
+                    }
+
+                    const formData = new FormData(contactForm);
+                    
+                    // Netlify AJAX submission
+                    fetch("/", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: encode({
+                            "form-name": "contact",
+                            ...Object.fromEntries(formData)
+                        })
+                    })
+                    .then(() => {
                         // Show success message with animation
                         successMessage.style.display = 'block';
                         
@@ -388,30 +409,26 @@
                             block: 'center' 
                         });
                         
-                        // Reset form after 5 seconds
-                        setTimeout(() => {
-                            contactForm.reset();
-                            successMessage.style.display = 'none';
-                        }, 5000);
-                        
-                        // Reset button
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.disabled = false;
-                        
-                        // Log submission for demo
-                        console.log('Form submitted successfully:', {
-                            name: name,
-                            email: email,
-                            company: document.getElementById('company').value,
-                            service: document.getElementById('service').value,
-                            budget: document.getElementById('budget').value,
-                            message: message
-                        });
-                        
-                        // Show success notification
+                        // Reset form and notification after success
+                        contactForm.reset();
                         showNotification('Your message has been sent successfully! We\'ll contact you within 24 hours.', 'success');
                         
-                    }, 1500);
+                        // Hide success message again after 5 seconds
+                        setTimeout(() => {
+                            if (successMessage.style.display === 'block') {
+                                successMessage.style.display = 'none';
+                            }
+                        }, 5000);
+                    })
+                    .catch(error => {
+                        showNotification('Something went wrong. Please try again or email us directly.', 'error');
+                        console.error('Form submission error:', error);
+                    })
+                    .finally(() => {
+                        // Always restore button state
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    });
                 });
             }
             
