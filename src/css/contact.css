@@ -112,9 +112,25 @@ body {
     font-weight: 500;
 }
 
+/* Make sure the parent container centers everything */
+main {
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Global Failsafe Centering */
+main > *:not(.contact-hero) {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 /* Enhanced Contact Container */
 .contact-container {
     max-width: 1200px;
+    width: 100%;
     margin: -60px auto 0;
     padding: 0 1.5rem 5rem;
     display: grid;
@@ -123,6 +139,16 @@ body {
     align-items: start;
     position: relative;
     z-index: 10;
+    z-index: 10;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Prevent grid blowout */
+.contact-info, 
+.contact-form-section {
+    min-width: 0;
 }
 
 /* Enhanced Contact Info Section */
@@ -503,12 +529,22 @@ body {
 }
 
 /* Enhanced Contact Methods */
+.contact-methods-section {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 1.5rem 6rem;
+    box-sizing: border-box;
+}
+
 .contact-methods {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2.5rem;
-    margin-top: 5rem;
-    padding: 0 1.5rem;
+    margin: 5rem auto 0;
+    padding: 0; 
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .method-card {
@@ -658,15 +694,20 @@ body {
 /* Responsive Design */
 @media (max-width: 1200px) {
     .contact-container {
-        max-width: 1000px;
+        max-width: 960px;
+        width: 100%;
+        box-sizing: border-box;
     }
 }
 
 @media (max-width: 992px) {
     .contact-container {
         grid-template-columns: 1fr;
-        gap: 3.5rem;
-        margin-top: -40px;
+        gap: 3rem;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .contact-hero h1 {
@@ -710,6 +751,8 @@ body {
     .contact-info,
     .contact-form-section {
         padding: 2.5rem 2rem;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .contact-item {
@@ -773,6 +816,10 @@ body {
     .contact-container {
         grid-template-columns: 1fr;
         gap: 3rem;
+        width: 100%;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+        box-sizing: border-box;
     }
     
     .contact-methods-grid {
@@ -794,7 +841,10 @@ body {
     }
     
     .contact-container {
-        padding: 3rem 1.5rem;
+        padding: 2rem 1.5rem;
+        margin: 0 auto;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .contact-info-item {
@@ -854,8 +904,11 @@ body {
     }
     
     .contact-container {
-        padding: 2rem 1rem;
-        gap: 2rem;
+        padding: 1.5rem 1rem;
+        gap: 1.5rem;
+        margin: 0 auto;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .contact-info-item {
@@ -950,7 +1003,10 @@ body {
     }
     
     .contact-container {
-        padding: 1.5rem 0.8rem;
+        padding: 1.5rem 1rem;
+        margin: 0 auto;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .contact-info-item,
